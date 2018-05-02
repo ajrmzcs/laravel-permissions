@@ -17,19 +17,20 @@ class RolesAndPermissionsSeeder extends Seeder
         app()['cache']->forget('spatie.permission.cache');
 
         // create permissions
-        Permission::create(['name' => 'create posts']);
-        Permission::create(['name' => 'edit posts']);
-        Permission::create(['name' => 'delete posts']);
-        Permission::create(['name' => 'publish posts']);
-        Permission::create(['name' => 'unpublish posts']);
+        Permission::create(['name' => 'posts.create']); // shows create form
+        Permission::create(['name' => 'posts.store']); // insert post
+        Permission::create(['name' => 'posts.edit']); // shows edit form
+        Permission::create(['name' => 'posts.update']); // update post
+        Permission::create(['name' => 'posts.delete']); // delete post
+        Permission::create(['name' => 'posts.unpublished']); // publish unpublish action
 
         // create roles and assign created permissions
 
         $role = Role::create(['name' => 'writer']);
-        $role->givePermissionTo(['create posts', 'edit posts']);
+        $role->givePermissionTo(['posts.create', 'posts.store', 'posts.edit', 'posts.update']);
 
         $role = Role::create(['name' => 'moderator']);
-        $role->givePermissionTo(['delete posts', 'publish posts', 'unpublish posts']);
+        $role->givePermissionTo(['posts.edit', 'posts.update', 'posts.unpublished']);
 
         $role = Role::create(['name' => 'super-admin']);
         $role->givePermissionTo(Permission::all());

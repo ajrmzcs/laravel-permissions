@@ -15,5 +15,7 @@ Route::get('/', 'PostController@index');
 
 Auth::routes();
 
+Route::get('posts/unpublished', 'PostController@listUnpublished')->name('posts.unpublished');
 Route::resource('posts', 'PostController');
+
 Route::resource('users', 'UserController');

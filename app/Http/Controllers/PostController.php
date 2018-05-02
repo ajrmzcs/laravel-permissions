@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     /**
+     * PostController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('clearance')->except(['index', 'show']);
+
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -60,7 +70,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('post-edit', compact('post'));
     }
 
     /**
@@ -84,5 +94,19 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    /**
+     * List unpublished posts to edit.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function listUnpublished()
+    {
+
+        $unpublishedPosts = Post::where('published', false)->get();
+
+        return view('unpublished', compact('unpublishedPosts'));
+
     }
 }
